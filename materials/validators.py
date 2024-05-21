@@ -13,5 +13,7 @@ class UrlValidator:
     def __call__(self, value):
         reg = re.compile('^https://www.youtube.com/')
         tmp = dict(value).get(self.field)
-        if not bool(reg.match(tmp)):
+        if tmp is None:
+            return 'null'
+        elif not bool(reg.match(tmp)):
             raise ValidationError('Ссылка должна быть только на Youtube, либо отсутствовать.')

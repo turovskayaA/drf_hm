@@ -10,6 +10,7 @@ from materials.paginators import MaterialsPaginator
 from materials.permissions import IsOwner
 from materials.serializers import CourseSerializer, LessonSerializer, SubscriptionSerializer
 from users.permissions import IsModerator
+from materials.tasks import send_update
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -39,6 +40,11 @@ class CourseViewSet(viewsets.ModelViewSet):
             return Course.objects.filter(owner=self.request.user)
         elif self.request.user.groups.filter(name='moderator'):
             return Course.objects.all()
+
+    def perform_update(self, serializer):
+        course = serializer.save()
+        course_id = course.id
+        send_update.delay(course_id)
 
 
 class LessonCreateApiView(CreateAPIView):
