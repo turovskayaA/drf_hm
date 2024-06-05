@@ -88,9 +88,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'drf',
-        'USER': 'postgres',
-        'PASSWORD': os.getenv('DATABASES_PASSWORD')
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'PORT': os.getenv('POSTGRES_PORT')
     }
 }
 
@@ -153,10 +154,10 @@ REST_FRAMEWORK = {
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
 
 # URL-адрес брокера результатов, также Redis
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
 # Часовой пояс для работы Celery
 CELERY_TIMEZONE = TIME_ZONE
