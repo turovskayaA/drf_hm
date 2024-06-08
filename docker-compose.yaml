@@ -9,7 +9,7 @@ services:
       - "6379"
 
   db:
-    image: postgres:16-alpine
+    image: postgres:latest
     restart: on-failure
     env_file:
       - .env
